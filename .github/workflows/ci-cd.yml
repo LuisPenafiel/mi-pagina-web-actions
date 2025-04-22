@@ -1,0 +1,30 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "main" ]  # Se ejecuta al hacer push a "main"
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest  # Entorno de ejecución
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4  # Descarga el código
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20  # Opcional: para proyectos con Node.js
+
+      - name: Install Dependencies
+        run: npm install  # Opcional: si usas npm
+
+      - name: Build (Ejemplo)
+        run: echo "Simulación de un paso de build"
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./  # Carpeta con los archivos estáticos
