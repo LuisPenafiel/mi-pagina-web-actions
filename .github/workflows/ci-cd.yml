@@ -8,12 +8,12 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     permissions: # Add Permission
-      contents: write  # Permiso to write in repo
+      contents: write  # Permision to write in repo
 
     steps:      # Paso 1: Download code
       - name: Checkout Code
         uses: actions/checkout@v4
-                # Paso 2: Deploy
+                # Paso 2: Deploy into Github pages
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3  
         with:
