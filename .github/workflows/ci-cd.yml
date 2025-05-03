@@ -10,10 +10,10 @@ jobs:
     permissions: # Add Permission
       contents: write  # Permision to write in repo
 
-    steps:      # Paso 1: Download code
+    steps:      # step 1: Download code
       - name: Checkout Code
         uses: actions/checkout@v4
-                # Paso 2: Deploy into Github pages
+                # step 2: Deploy into Github pages
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3  
         with:
