@@ -1,21 +1,27 @@
 name: CI/CD Pipeline
-
 on:
   push:
-    branches: [ "main" ]
-
+    branches: [ main ]
+permissions:
+  issues: write  # Permiso para crear comentarios
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
-    permissions: # Add Permission
-      contents: write  # Permision to write in repo
-
-    steps:      # step 1: Download code
+    permissions:
+      contents: write
+    steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-                # step 2: Deploy into Github pages
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3  
+        uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./
+      - name: Notify on Failure
+        if: failure()
+        run: |
+          echo "Deployment failed! Check the logs for details."
+          curl -X POST -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/${{ github.repository }}/commits/${{ github.sha }}/comments \
+            -d '{"body":"⚠️ Deployment failed! Please check the workflow logs."}'
