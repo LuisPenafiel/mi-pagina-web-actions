@@ -1,5 +1,7 @@
 name: Daily Cleanup
-on: push
+on:
+  schedule:
+    - cron: '0 0 * * *'
 jobs:
   cleanup:
     runs-on: ubuntu-latest
