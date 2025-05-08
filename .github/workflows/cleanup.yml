@@ -1,7 +1,5 @@
 name: Daily Cleanup
-on:
-  schedule:
-    - cron: '0 0 * * *' # Se ejecuta todos los días a medianoche
+on: push
 jobs:
   cleanup:
     runs-on: ubuntu-latest
