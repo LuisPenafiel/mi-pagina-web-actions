@@ -76,6 +76,8 @@ This project is licensed under the MIT License.
 
 If you have any questions, feel free to open an issue or contact me on GitHub! 😊
 
+**Note**: This project is part of my learning journey to become a DevOps engineer.
+
 ---
 
 ## 📅 7-Day CI/CD Learning Plan
