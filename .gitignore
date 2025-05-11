@@ -1,0 +1,16 @@
+# Node.js dependencies
+node_modules/
+package-lock.json
+
+# Temporary files
+*.tmp
+*.log
+
+# IDE or editor files
+.vscode/
+.idea/
+*.swp
+
+# Operating system files
+.DS_Store
+Thumbs.db

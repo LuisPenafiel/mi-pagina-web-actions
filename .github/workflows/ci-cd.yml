@@ -3,7 +3,8 @@ on:
   push:
     branches: [ main, staging ]
     paths:
-      - 'index.html'
+      - 'web/index.html'
+      - 'web/script.js'
 permissions:
   issues: write
 jobs:
@@ -14,12 +15,25 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run Tests
+        run: npm test
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./
+          publish_dir: ./web
           destination_dir: ${{ github.ref_name == 'main' && '' || 'staging' }}
+
       - name: Notify on Failure
         if: failure()
         run: |
