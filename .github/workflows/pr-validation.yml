@@ -1,6 +1,6 @@
-name: Validate HTML
+name: PR Validation
 on:
-  push:
+  pull_request:
     branches: [ main ]
 jobs:
   validate:

@@ -2,6 +2,10 @@ name: CI/CD Pipeline
 on:
   push:
     branches: [ main, staging ]
+    paths:
+      - 'web/**'
+permissions:
+  issues: write
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -10,12 +14,26 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run Tests
+        run: npm test
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./
-          destination_dir: ${{ github.ref_name == 'main' && '' || 'staging' }}
+          publish_dir: ./web
+          destination_dir: ${{ github.ref_name == 'staging' && '' || 'prod' }}
+          force_orphan: true
+
       - name: Notify on Failure
         if: failure()
         run: |

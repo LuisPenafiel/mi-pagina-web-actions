@@ -1,0 +1,35 @@
+name: Daily Cleanup
+on:
+  schedule:
+    - cron: '0 0 * * *' # Se ejecuta todos los días a medianoche
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      - name: Create Temporary Branch
+        run: |
+          git checkout -b temp-cleanup
+      - name: Create Temporary File
+        run: echo "This is a temp file" > temp.txt
+      - name: Commit Temporary File
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "actions@github.com"
+          git add temp.txt
+          git commit -m "Add temporary file for testing cleanup"
+          git push origin temp-cleanup
+      - name: Clean Temporary Files
+        run: |
+          rm -f temp.txt
+          git config user.name "GitHub Actions Bot"
+          git config user.email "actions@github.com"
+          git add .
+          git commit -m "Cleanup: Remove temporary files"
+          git push origin temp-cleanup
+      - name: Delete Temporary Branch
+        run: |
+          git push origin --delete temp-cleanup
