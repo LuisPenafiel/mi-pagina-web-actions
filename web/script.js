@@ -2,4 +2,4 @@ function sayHello(name) {
   return `Hello, ${name}!`;
 }
 
-module.exports = { sayHello };
+window.sayHello = sayHello; // Hacer la función accesible globalmente
