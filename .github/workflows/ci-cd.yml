@@ -26,13 +26,24 @@ jobs:
       - name: Run Tests
         run: npm test
 
+      - name: Clean Destination Directory
+        run: |
+          if [ "${{ github.ref_name }}" == "main" ]; then
+            rm -rf ./prod
+          else
+            rm -rf ./* !./prod
+            mkdir -p ./prod
+          fi
+        working-directory: ./gh-pages
+        continue-on-error: true
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./web
           destination_dir: ${{ github.ref_name == 'staging' && '' || 'prod' }}
-          force_orphan: true
+          force_orphan: false
 
       - name: Notify on Failure
         if: failure()
