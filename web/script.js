@@ -2,4 +2,12 @@ function sayHello(name) {
   return `Hello, ${name}!`;
 }
 
-window.sayHello = sayHello; // Hacer la función accesible globalmente
+// Exportar para Node.js (pruebas con Jest)
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { sayHello };
+}
+
+// Hacer la función accesible en el navegador
+if (typeof window !== 'undefined') {
+  window.sayHello = sayHello;
+}
