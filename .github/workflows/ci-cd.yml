@@ -29,12 +29,11 @@ jobs:
       - name: Clean Destination Directory
         run: |
           if [ "${{ github.ref_name }}" == "main" ]; then
-            rm -rf ./prod
+            mkdir -p ./gh-pages && cd ./gh-pages && rm -rf ./prod
           else
-            rm -rf ./* !./prod
+            mkdir -p ./gh-pages && cd ./gh-pages && find . -maxdepth 1 -not -name "prod" -not -name "." -exec rm -rf {} +
             mkdir -p ./prod
           fi
-        working-directory: ./gh-pages
         continue-on-error: true
 
       - name: Deploy to GitHub Pages
